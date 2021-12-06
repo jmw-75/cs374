@@ -1,0 +1,663 @@
+Script started on 2021-10-14 14:53:42-04:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+]0;jmw75@maroon24: ~/cs374/Project04[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04[00m$ vf  cd Chunks/
+]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ make
+make: 'mandel' is up to date.
+]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cat Makefile          mad ndel.c
+/* Compute/draw mandelbrot set using MPI/MPE commands
+ *
+ * Written Winter, 1998, W. David Laverell.
+ *
+ * Refactored Winter 2002, Joel Adams. 
+ * 
+ * Updates by: John White completed on October 12, 2021 @ Calvin Universities Maroon Lab
+ * 
+ * Updates include: creating a 'Chunks' Structure using parallel loop patterns to speed up
+ *                   the computation to parallize the computation through MPI/MPE methods
+ */
+
+#include <stdio.h>
+#include <math.h>
+#include <sys/time.h>
+#include <mpi.h>
+#include <mpe.h>
+#include "display.h"
+#include <stdlib.h> //malloc
+
+
+/* compute the Mandelbrot-set function for a given
+ *  point in the complex plane.
+ *
+ * Receive: doubles x and y,
+ *          complex c.
+ * Modify: doubles ans_x and ans_y.
+ * POST: ans_x and ans_y contain the results of the mandelbrot-set
+ *        function for x, y, and c.
+ */
+void compute(double x, double y, double c_real, double c_imag,
+              double *ans_x, double *ans_y)
+{
+        *ans_x = x*x - y*y + c_real;
+        *ans_y = 2*x*y + c_imag;
+}
+
+/* compute the 'distance' between x and y.
+ *
+ * Receive: doubles x and y.
+ * Return: x^2 + y^2.
+ */
+double distance(double x, double y)
+{
+        return x*x + y*y;
+}
+
+
+int main(int argc, char* argv[])
+{
+    const int  WINDOW_HEIGHT = 900;
+    const int  WINDOW_WIDTH  = 1200;
+    const double SPACING     = 0.003;
+
+    int        n        = 0,
+               ix       = 0,
+               iy       = 0,
+               button   = 0,
+               id       = 0;
+    double     x        = 0.0,
+               y        = 0.0,
+               c_real   = 0.0,
+               c_imag   = 0.0,
+               x_center = 1.16,
+               y_center = -0.10;
+
+    MPE_XGraph graph;
+
+    int numProcesses = -1;
+    id = -1;
+
+    MPI_Init(&argc,&argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &id);
+    MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+   if (id==0) {
+      MPE_Open_graphics( &graph, MPI_COMM_WORLD, 
+                           getDisplay(),
+                           -1, -1,
+                           WINDOW_WIDTH, WINDOW_HEIGHT, 0 );
+   }
+
+   int chunkSize1 = (WINDOW_HEIGHT / numProcesses)+1;          // chunking
+   int chunkSize2 = chunkSize1-1;                              // chunking but taking care of remainder
+   int remainder = WINDOW_HEIGHT % numProcesses;               // The remaining number not divisible by Num Proc.
+   int size = WINDOW_WIDTH * WINDOW_HEIGHT;
+   int i=0;
+   int * chunkVals    = (int *) malloc( (WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(MPI_INT) ) );   // array for chunk values
+   int * chunkFinalVals = (int *) malloc( (WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(MPI_INT) ) ); // final chunks array
+
+   //tracking time
+   double startTime = 0.0, totalTime = 0.0;
+   startTime = MPI_Wtime();
+
+   if (remainder == 0 || (remainder !=0 && id < remainder)) {        //remainder handling
+      ix = 0;                                                        // start at the left
+      iy = id*chunkSize1;                                            // start where the last chunk left off.
+
+      if (remainder == 0) {
+         chunkSize1--;                                               //if remainder is 0, don't make chunk size 1 bigger
+      } 
+
+      for (i = id*chunkSize1*1200; i < (id+1)*chunkSize1*1200; i++) { //run loop over chunks
+         if (ix % 1200 == 0) {
+            iy ++;
+            ix = 0;
+         }
+         //DONT CHANGE <
+         c_real = (ix - 400) * SPACING - x_center;
+         c_imag = (iy - 400) * SPACING - y_center;
+         x = y = 0.0;
+         n = 0;
+
+         while (n < 50 && distance(x, y) < 4.0)
+         {
+            compute(x, y, c_real, c_imag, &x, &y);
+            n++;
+         }
+         //DONT CHANGE >
+         if (n < 50) {
+            chunkVals[i] = 1; //YELLOW == 1
+         } else {
+            chunkVals[i] = 2; //BLACK == 2
+         }
+         ix++;
+      }
+   }
+
+   else {
+      ix = 0; // start at the left
+      iy = ((remainder * chunkSize1) + (chunkSize2 * (id - remainder))); // start where the last chunk left off.
+
+      for (i = ((remainder * chunkSize1) + (chunkSize2 * (id - remainder)))*1200;
+           i < ((remainder * chunkSize1) + (chunkSize2 * (id - remainder)) + chunkSize2)*1200;
+           i++) //run loop over chunks -- non-remainder loops
+      {
+         if (ix % 1200 == 0) {
+            iy ++;
+            ix = 0;
+         }
+         
+         c_real = (ix - 400) * SPACING - x_center;
+         c_imag = (iy - 400) * SPACING - y_center;
+         x = y = 0.0;
+         n = 0;
+
+         while (n < 50 && distance(x, y) < 4.0)
+         {
+            compute(x, y, c_real, c_imag, &x, &y);
+            n++;
+         }
+
+         if (n < 50) {
+            chunkVals[i] = 1; //YELLOW == 1
+         } else {
+            chunkVals[i] = 2; //BLACK == 2
+         }
+         ix++;
+      }
+   }
+
+   // Reduce the chunks into one using reduce. this provides no value overlap because the values
+   // were initialized to null/0
+   MPI_Reduce(chunkVals, chunkFinalVals, size, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+
+   totalTime = MPI_Wtime() - startTime; 
+
+   if (id == 0) {
+      i = 0;
+      for(iy=0; iy<WINDOW_HEIGHT; iy++) {
+         for(ix=0; ix<WINDOW_WIDTH; ix++){
+
+            if (chunkFinalVals[i]==1) {
+               MPE_Draw_point(graph, ix, iy, MPE_YELLOW);
+            }
+            else if (chunkFinalVals[i]==2) {
+               MPE_Draw_point(graph, ix, iy, MPE_BLACK);
+            } else {
+	            printf("Blue Pixel! Uh! %d\n",chunkFinalVals[i]);
+               MPE_Draw_point(graph, ix, iy, MPE_BLUE);           //shouldl be just black and yellows
+            }
+            i++; 
+         }
+      }
+
+      // pause until mouse-click so the program doesn't terminate  
+      printf("\nClick in the window to continue...\n");
+      printf("Total time for Chunks: %f\n",totalTime);
+      MPE_Get_mouse_press( graph, &ix, &iy, &button );
+   }
+
+   free(chunkFinalVals);
+   free(chunkVals);
+
+   if (id == 0 ) MPE_Close_graphics( &graph );
+   MPI_Finalize();
+   return 0;
+}
+]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cat mandel.c[8Pmakecd Chunks/scp jmw75@borg:~/374/proj03/slurm-1988677.out ./[A]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cat App.js [K
+[K[A]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cat App.js scp jmw75@borg:~/374/proj03/slurm-1988677.out ./[A]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cd Chunks/[K
+[K[A]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cd Chunks/[6Pmakecat mandel.c[Kmake run NP=1
+mpirun.mpich -np 1  ./mandel
+
+Click in the window to continue...
+Total time for Chunks: 0.095031
+]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ make run NP=16
+mpirun.mpich -np 16  ./mandel
+
+Click in the window to continue...
+Total time for Chunks: 0.443806
+]0;jmw75@maroon24: ~/cs374/Project04/Chunks[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Chunks[00m$ cd ..
+]0;jmw75@maroon24: ~/cs374/Project04[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04[00m$ cd Slices/
+]0;jmw75@maroon24: ~/cs374/Project04/Slices[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Slices[00m$ make
+make: 'mandel' is up to date.
+]0;jmw75@maroon24: ~/cs374/Project04/Slices[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Slices[00m$ cat M mandel.c
+/* Compute/draw mandelbrot set using MPI/MPE commands
+ *
+ * Written Winter, 1998, W. David Laverell.
+ *
+ * Refactored Winter 2002, Joel Adams. 
+ * 
+ * Updates by: John White completed on October 12, 2021 @ Calvin Universities Maroon Lab
+ * 
+ * Updates include: creating a 'Slices' Structure using parallel loop patterns and 
+ *                   the collective communication pattern to combine slices through 
+ *                   MPI/MPE methods
+ */
+
+#include <stdio.h>
+#include <math.h>
+#include <sys/time.h>
+#include <mpi.h>
+#include <mpe.h>
+#include "display.h"
+#include <stdlib.h>
+
+
+/* compute the Mandelbrot-set function for a given
+ *  point in the complex plane.
+ *
+ * Receive: doubles x and y,
+ *          complex c.
+ * Modify: doubles ans_x and ans_y.
+ * POST: ans_x and ans_y contain the results of the mandelbrot-set
+ *        function for x, y, and c.
+ */
+void compute(double x, double y, double c_real, double c_imag,
+              double *ans_x, double *ans_y)
+{
+        *ans_x = x*x - y*y + c_real;
+        *ans_y = 2*x*y + c_imag;
+}
+
+/* compute the 'distance' between x and y.
+ *
+ * Receive: doubles x and y.
+ * Return: x^2 + y^2.
+ */
+double distance(double x, double y)
+{
+        return x*x + y*y;
+}
+
+
+int main(int argc, char* argv[])
+{
+   const int  WINDOW_HEIGHT = 900;
+   const int  WINDOW_WIDTH  = 1200;
+   const double SPACING     = 0.003;
+
+   int      n        = 0,
+            ix       = 0,
+            iy       = 0,
+            button   = 0,
+            id       = 0;
+   double   x        = 0.0,
+            y        = 0.0,
+            c_real   = 0.0,
+            c_imag   = 0.0,
+            x_center = 1.16,
+            y_center = -0.10;
+
+   MPE_XGraph graph;
+
+   int numProcesses = -1;
+   id = -1;
+
+   MPI_Init(&argc,&argv);
+   MPI_Comm_rank(MPI_COMM_WORLD, &id);
+   MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+   if (id==0) { //only the one computer has the display ability because security
+      MPE_Open_graphics( &graph, MPI_COMM_WORLD, 
+                           getDisplay(),
+                           -1, -1,
+                           WINDOW_WIDTH, WINDOW_HEIGHT, 0 );
+   }
+
+   int *rowVals;
+   int *printVals;
+   MPI_Status status;
+   
+   rowVals = (int *)malloc(WINDOW_WIDTH*sizeof(int)); //array to put row values in when calculating
+   printVals = (int *)malloc(WINDOW_WIDTH*sizeof(int)); //array to put row values in when printing
+   
+   int temp;
+   temp = 1;
+   int row;
+   
+   double startTime = 0.0, totalTime = 0.0;
+   startTime = MPI_Wtime();
+
+   if (id==0 && numProcesses > 1){
+      //printf("Number of Processes \t %d\n", numProcesses);
+      for (temp=1; temp < numProcesses; temp++) {
+         //printf("into loop\n");
+         for (iy = temp; iy < WINDOW_HEIGHT; iy+=numProcesses) {
+            MPI_Recv(printVals, WINDOW_WIDTH,MPI_INT,MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+            row = status.MPI_TAG;
+            //printf("Recieved row:%d\t%d\n",row,ix);
+            for (ix = 0; ix < WINDOW_WIDTH; ix++) {
+               //printf("Row value %d\n",rowVals[ix]);
+               if (printVals[ix]==1) {
+                  MPE_Draw_point(graph, ix, row, MPE_RED);
+               } else if(printVals[ix]==2) {
+                  MPE_Draw_point(graph, ix, row, MPE_ORANGE);
+               } else if(printVals[ix]==3) {
+                  MPE_Draw_point(graph, ix, row, MPE_YELLOW);
+               } else if(printVals[ix]==4) {
+                  MPE_Draw_point(graph, ix, row, MPE_GREEN);
+               } else if(printVals[ix]==5) {
+                  MPE_Draw_point(graph, ix, row, MPE_BLUE);
+               }
+            }
+         }
+      }
+   }
+   
+   for (iy = id; iy < WINDOW_HEIGHT; iy+=numProcesses) //run loop over slices
+   {
+      for (ix = 0; ix < WINDOW_WIDTH; ix++)
+      {
+         c_real = (ix - 400) * SPACING - x_center;
+         c_imag = (iy - 400) * SPACING - y_center;
+         x = y = 0.0;
+         n = 0;
+         
+         while (n < 50 && distance(x, y) < 4.0)
+         {
+            compute(x, y, c_real, c_imag, &x, &y);
+            n++;
+         }
+        
+         if (n < 4) {
+            rowVals[ix]=1; // store RED as 1
+            if (id==0) MPE_Draw_point(graph, ix, iy, MPE_RED);
+         } else if ( n < 8 ) {
+            rowVals[ix]=2; // store ORANGE as 2
+            if (id==0) MPE_Draw_point(graph, ix, iy, MPE_ORANGE);
+         } else if ( n < 14 ) {
+            rowVals[ix]=3; // store YELLOW as 3
+            if (id==0) MPE_Draw_point(graph, ix, iy, MPE_YELLOW);
+         } else if ( n < 25 ) {
+            rowVals[ix]=4; // store GREEN as 4
+            if (id==0) MPE_Draw_point(graph, ix, iy, MPE_GREEN);
+         } else {
+            rowVals[ix]=5; // store BLUE as 5
+            if (id==0) MPE_Draw_point(graph, ix, iy, MPE_BLUE);
+         }         
+       }
+
+      if (id!=0) { 
+         MPI_Send(rowVals, WINDOW_WIDTH, MPI_INT, 0, iy,MPI_COMM_WORLD);
+      }
+      
+   }   
+
+   totalTime = MPI_Wtime() - startTime;
+   
+   if (id == 0) {
+      // pause until mouse-click so the program doesn't terminate
+      printf("\nClick in the window to continue...\n");
+      printf("Total time for Slices: %f\n",totalTime);
+      MPE_Get_mouse_press( graph, &ix, &iy, &button );
+   }
+
+   free(rowVals); // avoid memory leaks
+   free(printVals); //AVOID MEMORY LEAKS
+   if (id==0) MPE_Close_graphics( &graph ); // only id==0 opened graphix, so only it needs clsoe
+   MPI_Finalize();
+    
+
+   return 0;
+}
+]0;jmw75@maroon24: ~/cs374/Project04/Slices[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Slices[00m$ make run NP=1
+mpirun.mpich -np 1  ./mandel
+
+Click in the window to continue...
+Total time for Slices: 0.124163
+]0;jmw75@maroon24: ~/cs374/Project04/Slices[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Slices[00m$ make run NP=16
+mpirun.mpich -np 16  ./mandel
+
+Click in the window to continue...
+Total time for Slices: 0.063399
+]0;jmw75@maroon24: ~/cs374/Project04/Slices[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/Slices[00m$ cd..   ..
+]0;jmw75@maroon24: ~/cs374/Project04[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04[00m$ cd MasterWorker/
+]0;jmw75@maroon24: ~/cs374/Project04/MasterWorker[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/MasterWorker[00m$ make
+make: 'mandel' is up to date.
+]0;jmw75@maroon24: ~/cs374/Project04/MasterWorker[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/MasterWorker[00m$ cat mandel.c
+/* Compute/draw mandelbrot set using MPI/MPE commands
+ *
+ * Written Winter, 1998, W. David Laverell.
+ *
+ * Refactored Winter 2002, Joel Adams.
+ *  
+ * Updates by: John White completed on October 12, 2021 @ Calvin Universities Maroon Lab
+ * 
+ * Updates include: creating a Master-Worker Structure using Message-Passing patterns
+ *                   through MPI/MPE methods
+ */
+
+#include <stdio.h>
+#include <math.h>
+#include <sys/time.h>
+#include <mpi.h>
+#include <mpe.h>
+#include "display.h"
+#include <stdlib.h>
+
+
+/* compute the Mandelbrot-set function for a given
+ *  point in the complex plane.
+ *
+ * Receive: doubles x and y,
+ *          complex c.
+ * Modify: doubles ans_x and ans_y.
+ * POST: ans_x and ans_y contain the results of the mandelbrot-set
+ *        function for x, y, and c.
+ */
+void compute(double x, double y, double c_real, double c_imag,
+              double *ans_x, double *ans_y)
+{
+        *ans_x = x*x - y*y + c_real;
+        *ans_y = 2*x*y + c_imag;
+}
+
+/* compute the 'distance' between x and y.
+ *
+ * Receive: doubles x and y.
+ * Return: x^2 + y^2.
+ */
+double distance(double x, double y)
+{
+        return x*x + y*y;
+}
+
+
+int main(int argc, char* argv[])
+{
+   const int  WINDOW_HEIGHT = 900;
+   const int  WINDOW_WIDTH  = 1200;
+   const double SPACING     = 0.003;
+
+   int      n        = 0,
+            ix       = 0,
+            iy       = 0,
+            button   = 0,
+            id       = 0;
+   double   x        = 0.0,
+            y        = 0.0,
+            c_real   = 0.0,
+            c_imag   = 0.0,
+            x_center = 1.16,
+            y_center = -0.10;
+
+   MPE_XGraph graph;
+
+   int numProcesses = -1;
+   id = -1;
+
+   MPI_Init(&argc,&argv);
+   MPI_Comm_rank(MPI_COMM_WORLD, &id);
+   MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+   if (id==0){
+      MPE_Open_graphics( &graph, MPI_COMM_WORLD, 
+                        getDisplay(),
+                        -1, -1,
+                        WINDOW_WIDTH, WINDOW_HEIGHT, 0 );
+   }
+ 
+   int *rowVals;                                            // pointer for array
+   int *printVals;                                          // pointer for array
+   MPI_Status status;                                       // represents status of message  
+   rowVals = (int *)malloc(WINDOW_WIDTH*sizeof(int));       // array for row vala when calculating
+   printVals = (int *)malloc(WINDOW_WIDTH*sizeof(int));     // array for row vals when printing
+
+   int toCalc = numProcesses;
+   int calcPlease;
+   int row;
+   int rowsFinished=numProcesses;
+   int worker;
+
+   double startTime = 0.0, totalTime = 0.0;
+   startTime = MPI_Wtime();
+
+   if (numProcesses==1){                                    // master does it all
+      for (iy = 0; iy < WINDOW_HEIGHT; iy++)                //run loop over slices
+      {
+         for (ix = 0; ix < WINDOW_WIDTH; ix++)
+         {
+            //DONT CHANGE <
+            c_real = (ix - 400) * SPACING - x_center;
+            c_imag = (iy - 400) * SPACING - y_center;
+            x = y = 0.0;
+            n = 0;
+            
+            while (n < 50 && distance(x, y) < 4.0)
+            {
+               compute(x, y, c_real, c_imag, &x, &y);
+               n++;
+            }
+            //DONT CHANGE >
+
+            if (n < 50) {
+               MPE_Draw_point(graph, ix, iy, MPE_YELLOW);
+            } else {
+               MPE_Draw_point(graph, ix, iy, MPE_BLACK);
+            }         
+         }
+      }
+   } 
+   
+   //master worker approach, each process does the row that matches its id
+   else {                                                
+      iy = id;                                           
+         for (ix = 0; ix < WINDOW_WIDTH; ix++) {
+            //DONT CHANGE <
+            c_real = (ix - 400) * SPACING - x_center;
+            c_imag = (iy - 400) * SPACING - y_center;
+            x = y = 0.0;
+            n = 0;
+            
+            while (n < 50 && distance(x, y) < 4.0)
+            {
+               compute(x, y, c_real, c_imag, &x, &y);
+               n++;
+            }
+            //DONT CHANGE >
+         
+            // Only print with the Master (ie. when id == 0)
+            if (n < 50) {
+               rowVals[ix]=69; // store PINK as 69
+               if (id==0) MPE_Draw_point(graph, ix, iy, MPE_YELLOW); 
+            } else {
+               rowVals[ix]=87; // store BLACK as 87
+               if (id==0) MPE_Draw_point(graph, ix, iy, MPE_BLACK); 
+            }         
+         }
+
+      int done = -1;
+      toCalc = numProcesses;
+      if (id == 0) {
+         rowsFinished = 0;
+         while(rowsFinished != 899){
+            MPI_Recv(printVals, WINDOW_WIDTH, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+            row = status.MPI_TAG;
+            worker = status.MPI_SOURCE;
+            rowsFinished++;
+
+            for (ix = 0; ix < WINDOW_WIDTH; ix++) {
+               if (printVals[ix]==69) {
+                  MPE_Draw_point(graph, ix, row, MPE_YELLOW);
+               } else if(printVals[ix]==87) {
+                  MPE_Draw_point(graph, ix, row, MPE_BLACK);
+               }
+            }
+
+            
+            if (toCalc < WINDOW_HEIGHT) {
+               MPI_Send(&toCalc, 1, MPI_INT, worker, iy, MPI_COMM_WORLD);
+            } else {
+               MPI_Send(&done, 1, MPI_INT, worker, iy, MPI_COMM_WORLD);
+            }
+            toCalc++;
+            if (rowsFinished == 899) {
+               break;
+            }
+         }
+
+      }
+
+      else if(id !=0) {
+         while(iy!=-1) {
+            //printf("Sending row %d\t%d\tfrom\t%d\n",iy,ix, id);
+            MPI_Send(rowVals, WINDOW_WIDTH, MPI_INT, 0, iy, MPI_COMM_WORLD);
+            //printf("row %d\t%d\tfrom\t%d\tsent\n",iy,ix, id);
+            MPI_Recv(&calcPlease, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+
+            iy = calcPlease; //set the row value to recieved row from master
+
+            //printf("row %d\trecieved\n",iy);
+
+            if (iy==-1) break; //breaks while loop when it gets the STOP! signal
+            
+            for (ix = 0; ix < WINDOW_WIDTH; ix++)
+            {
+               c_real = (ix - 400) * SPACING - x_center;
+               c_imag = (iy - 400) * SPACING - y_center;
+               x = y = 0.0;
+               n = 0;
+               
+               while (n < 50 && distance(x, y) < 4.0)
+               {
+                  compute(x, y, c_real, c_imag, &x, &y);
+                  n++;
+               }
+               //printf("Made it here %d\n", id);
+               if (n < 50) {
+                  rowVals[ix]=69; // store PINK as 69
+               } else {
+                  rowVals[ix]=87; // store BLACK as 87
+               }         
+            }
+         }
+      }
+   }
+  
+   // all the sending and recieving should be included in the total time.
+   totalTime = MPI_Wtime() - startTime; 
+
+   // From OG
+   if (id == 0) {
+      // pause until mouse-click so the program doesn't terminate
+      printf("Total time for Master-Worker: %f",totalTime);
+      printf("\nClick in the window to continue...\n");
+      MPE_Get_mouse_press( graph, &ix, &iy, &button );
+   }
+
+   free(rowVals);
+   free(printVals);
+   if (id==0) MPE_Close_graphics( &graph );
+   MPI_Finalize();
+    
+
+   return 0;
+}
+]0;jmw75@maroon24: ~/cs374/Project04/MasterWorker[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/MasterWorker[00m$ make run = NP=1
+mpirun.mpich -np 1  ./mandel
+Total time for Master-Worker: 0.099448
+Click in the window to continue...
+]0;jmw75@maroon24: ~/cs374/Project04/MasterWorker[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/MasterWorker[00m$ make run NP=1 16
+mpirun.mpich -np 16  ./mandel
+Total time for Master-Worker: 0.095291
+Click in the window to continue...
+]0;jmw75@maroon24: ~/cs374/Project04/MasterWorker[01;32mjmw75@maroon24[00m:[01;34m~/cs374/Project04/MasterWorker[00m$ exit
+
+Script done on 2021-10-14 14:55:20-04:00 [COMMAND_EXIT_CODE="0"]

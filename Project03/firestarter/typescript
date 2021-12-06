@@ -1,0 +1,418 @@
+Script started on 2021-09-22 21:23:59-04:00 [TERM="xterm-256color" TTY="/dev/pts/2" COLUMNS="80" LINES="24"]
+]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ make
+mpicc -c -I/usr/X11R6/include -Wall firestarter.c
+mpicc firestarter.o X-graph.o display.o -o Fire -L/usr/X11R6/lib -lX11 
+]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ for   cat firestarter.c
+/* firestarter.c 
+ * David Joiner
+ * Usage: Fire [forestSize(20)] [numTrials(5000)] * [numProbabilities(101)] [showGraph(1)]
+ * Modified by: John White
+ * cs374 Calvin University
+ * Date: Wednesday, September 22
+ * Modifications calculate and display the times for each burn and 
+ *      implements the usage of MPI to spread the computation accross
+ *      N processes to be parallel. Then is run on the cluser to 
+ *      research the difference in efficiency.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include "X-graph.h"
+#include <mpi.h>     // MPI
+#include <limits.h>
+
+#define UNBURNT 0
+#define SMOLDERING 1
+#define BURNING 2
+#define BURNT 3
+
+#define true 1
+#define false 0
+
+typedef int boolean;
+
+extern void seed_by_time(int);
+extern int ** allocate_forest(int);
+extern void initialize_forest(int, int **);
+extern double get_percent_burned(int, int **);
+extern void delete_forest(int, int **);
+extern void light_tree(int, int **,int,int);
+extern boolean forest_is_burning(int, int **);
+extern void forest_burns(int, int **,double);
+extern int burn_until_out(int,int **,double,int,int);
+extern void print_forest(int, int **);
+
+int main(int argc, char ** argv) {
+    // initial conditions and variable definitions
+    int forest_size=20;
+    double * prob_spread;
+    double prob_min=0.0;
+    double prob_max=1.0;
+    double prob_step;
+    int **forest;
+    double * percent_burned;
+    double * num_burns;
+    int i_trial;
+    int n_trials=5000;
+    int i_prob;
+    int n_probs=101;
+    int do_display=1;
+    //xgraph thegraph;
+
+    // check command line arguments
+
+    if (argc > 1) {
+        sscanf(argv[1],"%d",&forest_size);
+    }
+    if (argc > 2) {
+        sscanf(argv[2],"%d",&n_trials);
+    }
+    if (argc > 3) {
+        sscanf(argv[3],"%d",&n_probs);
+    }
+    if (argc > 4) {
+        sscanf(argv[4],"%d",&do_display);
+    }
+    if (do_display!=0) do_display=1;
+
+    // setup problem
+    seed_by_time(0);
+    forest=allocate_forest(forest_size);
+    prob_spread = (double *) malloc (n_probs*sizeof(double));
+    percent_burned = (double *) malloc (n_probs*sizeof(double));
+    num_burns = (double *) malloc (10000 *sizeof(double));
+
+    // for a number of probabilities, calculate
+    // average burn and output
+    prob_step = (prob_max-prob_min)/(double)(n_probs-1);
+
+    int id = -1, numProcesses = -1;
+    //long i;
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &id);
+    MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+    if (id == 0) {
+        printf("Probability of fire spreading, Average percent burned, number of iterations\n");
+    }
+
+    double startTime = 0.0, totalTime = 0.0;
+    startTime = MPI_Wtime();
+
+    for (i_trial=0; i_trial < n_trials/numProcesses; i_trial++) {
+    
+        //for a number of trials, calculate average
+        //percent burn
+        
+        //percent_burned[i_prob]=0.0;
+        for (i_prob = 0 ; i_prob < n_probs; i_prob++) {
+
+            prob_spread[i_prob] = prob_min + (double)i_prob * prob_step;
+            num_burns[i_prob] = burn_until_out(forest_size,forest,prob_spread[i_prob], forest_size/2,forest_size/2);
+            percent_burned[i_prob]+=get_percent_burned(forest_size,forest);
+
+        }
+
+    }
+
+    totalTime = MPI_Wtime() - startTime;
+
+    double Fburned;
+    double Fnums;
+
+    for (i_prob = 0; i_prob < n_probs; i_prob++){
+        prob_spread[i_prob] = prob_min + (double)i_prob * prob_step;
+        MPI_Reduce(&percent_burned[i_prob], &Fburned, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&num_burns[i_prob], &Fnums, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+        if (id == 0) {
+            printf ("%lf , %lf , %lf\n" , prob_spread[i_prob], Fburned/n_trials, Fnums/n_trials);
+        }
+    }
+
+    if (id == 0) {
+        printf("Time: %f seconds\n", totalTime);
+    }
+
+    // plot graph
+    //if (do_display==1) {
+        //xgraphSetup(&thegraph,300,300);
+        //xgraphDraw(&thegraph,n_probs,0,0,1,1,prob_spread,percent_burned);
+        //pause();
+    //}
+
+    // clean up
+    delete_forest(forest_size,forest);
+    free(prob_spread);
+    free(percent_burned);
+
+    MPI_Finalize();
+
+    return 0;
+}
+
+#include <time.h>
+
+void seed_by_time(int offset) {
+    time_t the_time;
+    time(&the_time);
+    srand((int)the_time+offset);
+}
+
+int burn_until_out(int forest_size,int ** forest, double prob_spread,
+    int start_i, int start_j) {
+    int count;
+
+    initialize_forest(forest_size,forest);
+    light_tree(forest_size,forest,start_i,start_j);
+
+    // burn until fire is gone
+    count = 0;
+    while(forest_is_burning(forest_size,forest)) {
+        forest_burns(forest_size,forest,prob_spread);
+        count++;
+    }
+
+    return count;
+}
+
+double get_percent_burned(int forest_size,int ** forest) {
+    int i,j;
+    int total = forest_size*forest_size-1;
+    int sum=0;
+
+    // calculate pecrent burned
+    for (i=0;i<forest_size;i++) {
+        for (j=0;j<forest_size;j++) {
+            if (forest[i][j]==BURNT) {
+                sum++;
+            }
+        }
+    }
+
+    // return percent burned;
+    return ((double)(sum-1)/(double)total);
+}
+
+
+int ** allocate_forest(int forest_size) {
+    int i;
+    int ** forest;
+
+    forest = (int **) malloc (sizeof(int*)*forest_size);
+    for (i=0;i<forest_size;i++) {
+        forest[i] = (int *) malloc (sizeof(int)*forest_size);
+    }
+
+    return forest;
+}
+
+void initialize_forest(int forest_size, int ** forest) {
+    int i,j;
+
+    for (i=0;i<forest_size;i++) {
+        for (j=0;j<forest_size;j++) {
+            forest[i][j]=UNBURNT;
+        }
+    }
+}
+
+void delete_forest(int forest_size, int ** forest) {
+    int i;
+
+    for (i=0;i<forest_size;i++) {
+        free(forest[i]);
+    }
+    free(forest);
+}
+
+void light_tree(int forest_size, int ** forest, int i, int j) {
+    forest[i][j]=SMOLDERING;
+}
+
+boolean fire_spreads(double prob_spread) {
+    if ((double)rand()/(double)RAND_MAX < prob_spread) 
+        return true;
+    else
+        return false;
+}
+
+void forest_burns(int forest_size, int **forest,double prob_spread) {
+    int i,j;
+    extern boolean fire_spreads(double);
+
+    //burning trees burn down, smoldering trees ignite
+    for (i=0; i<forest_size; i++) {
+        for (j=0;j<forest_size;j++) {
+            if (forest[i][j]==BURNING) forest[i][j]=BURNT;
+            if (forest[i][j]==SMOLDERING) forest[i][j]=BURNING;
+        }
+    }
+
+    //unburnt trees catch fire
+    for (i=0; i<forest_size; i++) {
+        for (j=0;j<forest_size;j++) {
+            if (forest[i][j]==BURNING) {
+                if (i!=0) { // North
+                    if (fire_spreads(prob_spread)&&forest[i-1][j]==UNBURNT) {
+                        forest[i-1][j]=SMOLDERING;
+                    }
+                }
+                if (i!=forest_size-1) { //South
+                    if (fire_spreads(prob_spread)&&forest[i+1][j]==UNBURNT) {
+                        forest[i+1][j]=SMOLDERING;
+                    }
+                }
+                if (j!=0) { // West
+                    if (fire_spreads(prob_spread)&&forest[i][j-1]==UNBURNT) {
+                        forest[i][j-1]=SMOLDERING;
+                    }
+                }
+                if (j!=forest_size-1) { // East
+                    if (fire_spreads(prob_spread)&&forest[i][j+1]==UNBURNT) {
+                        forest[i][j+1]=SMOLDERING;
+                    }
+                }
+            }
+        }
+    }
+}
+
+boolean forest_is_burning(int forest_size, int ** forest) {
+    int i,j;
+
+    for (i=0; i<forest_size; i++) {
+        for (j=0; j<forest_size; j++) {
+            if (forest[i][j]==SMOLDERING||forest[i][j]==BURNING) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void print_forest(int forest_size,int ** forest) {
+    int i,j;
+
+    for (i=0;i<forest_size;i++) {
+        for (j=0;j<forest_size;j++) {
+            if (forest[i][j]==BURNT) {
+                printf(".");
+            } else {
+                printf("X");
+            }
+        }
+        printf("\n");
+    }
+}
+]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ cat firestarter.c[Kcat firestarter.cmake[Kcat firestarter.c[9Pssh borgcp jmw75@borg:~/374/proj03/slurm-* ../[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ cd outputs/[K
+[K[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ cd outputs/..[Kscp firestarter.c jmw75@borg:~/374/prroj03/[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ [5Pcd cs374/Project03/firestarter/
+[K[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ cd cs374/Project03/firestarter/mpirun -np 4 -machinefile ../hosts .//Fire[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ make[K
+[K[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ makepirun -np 4 -machinefile ../hosts .//Fire[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ make[K
+[K[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ makepirun -np 4 -machinefile ../hosts .//Fire[A]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ mpirun -np 4 -machinefile ../hosts 
+
+Probability of fire spreading, Average percent burned, number of iterations
+0.000000 , 0.000000 , 0.001600
+0.010000 , 0.000104 , 0.001800
+0.020000 , 0.000217 , 0.001600
+0.030000 , 0.000335 , 0.002000
+0.040000 , 0.000434 , 0.001600
+0.050000 , 0.000615 , 0.001800
+0.060000 , 0.000722 , 0.002000
+0.070000 , 0.000888 , 0.001800
+0.080000 , 0.001032 , 0.001800
+0.090000 , 0.001164 , 0.001800
+0.100000 , 0.001452 , 0.001600
+0.110000 , 0.001586 , 0.001600
+0.120000 , 0.001925 , 0.001800
+0.130000 , 0.002126 , 0.002000
+0.140000 , 0.002411 , 0.002000
+0.150000 , 0.002730 , 0.001600
+0.160000 , 0.002910 , 0.002800
+0.170000 , 0.003180 , 0.002200
+0.180000 , 0.003593 , 0.003400
+0.190000 , 0.004199 , 0.003800
+0.200000 , 0.004576 , 0.003600
+0.210000 , 0.005108 , 0.002000
+0.220000 , 0.005766 , 0.003400
+0.230000 , 0.006419 , 0.002200
+0.240000 , 0.007443 , 0.003200
+0.250000 , 0.007487 , 0.003800
+0.260000 , 0.009059 , 0.004400
+0.270000 , 0.010090 , 0.002200
+0.280000 , 0.011385 , 0.001600
+0.290000 , 0.012389 , 0.004200
+0.300000 , 0.014315 , 0.006600
+0.310000 , 0.016401 , 0.006600
+0.320000 , 0.018946 , 0.005600
+0.330000 , 0.021777 , 0.005400
+0.340000 , 0.024929 , 0.006000
+0.350000 , 0.029435 , 0.004200
+0.360000 , 0.033520 , 0.007000
+0.370000 , 0.040030 , 0.008200
+0.380000 , 0.047031 , 0.002600
+0.390000 , 0.054518 , 0.011200
+0.400000 , 0.066943 , 0.002800
+0.410000 , 0.079003 , 0.006200
+0.420000 , 0.093466 , 0.012800
+0.430000 , 0.112809 , 0.015000
+0.440000 , 0.131553 , 0.013200
+0.450000 , 0.164017 , 0.010400
+0.460000 , 0.190741 , 0.006600
+0.470000 , 0.227204 , 0.020800
+0.480000 , 0.278576 , 0.009800
+0.490000 , 0.323418 , 0.015600
+0.500000 , 0.366049 , 0.028400
+0.510000 , 0.425198 , 0.018000
+0.520000 , 0.483495 , 0.011000
+0.530000 , 0.527370 , 0.039000
+0.540000 , 0.597945 , 0.040200
+0.550000 , 0.647013 , 0.027000
+0.560000 , 0.684436 , 0.026000
+0.570000 , 0.735949 , 0.024800
+0.580000 , 0.776611 , 0.021600
+0.590000 , 0.808860 , 0.028400
+0.600000 , 0.840082 , 0.021400
+0.610000 , 0.860431 , 0.025800
+0.620000 , 0.882275 , 0.020600
+0.630000 , 0.900721 , 0.023400
+0.640000 , 0.910177 , 0.021600
+0.650000 , 0.925996 , 0.022000
+0.660000 , 0.933587 , 0.023600
+0.670000 , 0.943222 , 0.015000
+0.680000 , 0.952097 , 0.020200
+0.690000 , 0.959763 , 0.019000
+0.700000 , 0.965403 , 0.019200
+0.710000 , 0.966859 , 0.020800
+0.720000 , 0.971314 , 0.018400
+0.730000 , 0.980733 , 0.018400
+0.740000 , 0.981341 , 0.019000
+0.750000 , 0.981828 , 0.017800
+0.760000 , 0.987384 , 0.018200
+0.770000 , 0.987623 , 0.017800
+0.780000 , 0.991530 , 0.017600
+0.790000 , 0.991467 , 0.017600
+0.800000 , 0.993904 , 0.017600
+0.810000 , 0.994374 , 0.017800
+0.820000 , 0.993948 , 0.018000
+0.830000 , 0.996969 , 0.018600
+0.840000 , 0.997063 , 0.018000
+0.850000 , 0.997955 , 0.017600
+0.860000 , 0.998391 , 0.017600
+0.870000 , 0.998264 , 0.017800
+0.880000 , 0.999196 , 0.017600
+0.890000 , 0.998781 , 0.017600
+0.900000 , 0.999529 , 0.017200
+0.910000 , 0.999686 , 0.017600
+0.920000 , 0.999763 , 0.017600
+0.930000 , 0.999846 , 0.017600
+0.940000 , 0.999904 , 0.017600
+0.950000 , 0.999946 , 0.017600
+0.960000 , 0.999970 , 0.017600
+0.970000 , 0.999986 , 0.017600
+0.980000 , 0.999996 , 0.017600
+0.990000 , 0.999999 , 0.017600
+1.000000 , 1.000000 , 0.017600
+Time: 6.064297 seconds
+]0;jmw75@gold34: ~/cs374/Project03/firestarter[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project03/firestarter[00m$ [Kexit
+
+Script done on 2021-09-22 21:24:41-04:00 [COMMAND_EXIT_CODE="0"]

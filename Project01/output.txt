@@ -1,0 +1,1310 @@
+Script started on 2021-09-09 21:26:05-04:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/374/proj01 .[10Pcd cs374/Project01/scp jmw75@borg:~/374/proj01 .[Kscp jmw75@borg:~/374/proj01 .[10Pcd cs374/Project01/mpirun -np 16 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16 -machinefile ../hosts ./circuitSa -machinefile ../hosts ./circuitSatis[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 1 -machinefile ../hosts ./circuitSatisf[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 4 -machinefile ../hosts ./circuitSatis[1@f[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 4
+
+
+Process 3 is checking the circuit...
+
+Process 0 is checking the circuit...
+
+Process 1 is checking the circuit...
+
+Process 2 is checking the circuit...
+3) 10011001111101011001100111110111 
+3) 10011001111101011001101111110111 
+3) 10011001111101011001110111110111 
+3) 10011001111101101001100111110111 
+3) 10011001111101101001101111110111 
+3) 10011001111101101001110111110111 
+3) 10011001111101111001100111110111 
+3) 10011001111101111001101111110111 
+3) 10011001111101111001110111110111 
+2) 10011001111101011001100111110110 
+2) 10011001111101011001101111110110 
+2) 10011001111101011001110111110110 
+2) 10011001111101101001100111110110 
+2) 10011001111101101001101111110110 
+2) 10011001111101101001110111110110 
+2) 10011001111101111001100111110110 
+2) 10011001111101111001101111110110 
+2) 10011001111101111001110111110110 
+1) 10011001111101011001100111110101 
+1) 10011001111101011001101111110101 
+1) 10011001111101011001110111110101 
+1) 10011001111101101001100111110101 
+1) 10011001111101101001101111110101 
+1) 10011001111101101001110111110101 
+1) 10011001111101111001100111110101 
+1) 10011001111101111001101111110101 
+1) 10011001111101111001110111110101 
+3) 10011011111101011001100111110111 
+3) 10011011111101011001101111110111 
+3) 10011011111101011001110111110111 
+3) 10011011111101101001100111110111 
+3) 10011011111101101001101111110111 
+3) 10011011111101101001110111110111 
+3) 10011011111101111001100111110111 
+3) 10011011111101111001101111110111 
+3) 10011011111101111001110111110111 
+2) 10011011111101011001100111110110 
+2) 10011011111101011001101111110110 
+2) 10011011111101011001110111110110 
+2) 10011011111101101001100111110110 
+2) 10011011111101101001101111110110 
+2) 10011011111101101001110111110110 
+2) 10011011111101111001100111110110 
+2) 10011011111101111001101111110110 
+2) 10011011111101111001110111110110 
+1) 10011011111101011001100111110101 
+1) 10011011111101011001101111110101 
+1) 10011011111101011001110111110101 
+1) 10011011111101101001100111110101 
+1) 10011011111101101001101111110101 
+1) 10011011111101101001110111110101 
+1) 10011011111101111001100111110101 
+1) 10011011111101111001101111110101 
+1) 10011011111101111001110111110101 
+3) 10011101111101011001100111110111 
+3) 10011101111101011001101111110111 
+3) 10011101111101011001110111110111 
+3) 10011101111101101001100111110111 
+3) 10011101111101101001101111110111 
+3) 10011101111101101001110111110111 
+3) 10011101111101111001100111110111 
+3) 10011101111101111001101111110111 
+3) 10011101111101111001110111110111 
+2) 10011101111101011001100111110110 
+2) 10011101111101011001101111110110 
+2) 10011101111101011001110111110110 
+2) 10011101111101101001100111110110 
+2) 10011101111101101001101111110110 
+2) 10011101111101101001110111110110 
+2) 10011101111101111001100111110110 
+2) 10011101111101111001101111110110 
+2) 10011101111101111001110111110110 
+1) 10011101111101011001100111110101 
+1) 10011101111101011001101111110101 
+1) 10011101111101011001110111110101 
+1) 10011101111101101001100111110101 
+1) 10011101111101101001101111110101 
+1) 10011101111101101001110111110101 
+1) 10011101111101111001100111110101 
+1) 10011101111101111001101111110101 
+1) 10011101111101111001110111110101 
+Process 3 finished in time 74.788025 secs.
+
+A total of 27 solutions were found.
+
+Process 2 finished in time 74.788271 secs.
+
+A total of 27 solutions were found.
+
+Process 1 finished in time 75.302543 secs.
+
+A total of 27 solutions were found.
+
+Process 0 finished in time 75.302316 secs.
+
+A total of 0 solutions were found.
+
+the total sum of the count values equals: 81
+The total time is: 75.302316
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kmpirun -np 4 -machinefile ../hosts ./circuitSatissfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 4 -machinefile ../hosts ./circuitSat -machinefile ../hosts ./circuitSatisf[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 8 -machinefile ../hosts ./circuitSatis[1@f[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 8
+
+
+Process 5 is checking the circuit...
+
+Process 0 is checking the circuit...
+
+Process 3 is checking the circuit...
+
+Process 2 is checking the circuit...
+
+Process 1 is checking the circuit...
+
+Process 4 is checking the circuit...
+
+Process 7 is checking the circuit...
+
+Process 6 is checking the circuit...
+6) 10011001111101011001100111110110 
+6) 10011001111101011001101111110110 
+6) 10011001111101011001110111110110 
+6) 10011001111101101001100111110110 
+6) 10011001111101101001101111110110 
+6) 10011001111101101001110111110110 
+6) 10011001111101111001100111110110 
+6) 10011001111101111001101111110110 
+6) 10011001111101111001110111110110 
+7) 10011001111101011001100111110111 
+7) 10011001111101011001101111110111 
+7) 10011001111101011001110111110111 
+7) 10011001111101101001100111110111 
+7) 10011001111101101001101111110111 
+7) 10011001111101101001110111110111 
+7) 10011001111101111001100111110111 
+7) 10011001111101111001101111110111 
+7) 10011001111101111001110111110111 
+6) 10011011111101011001100111110110 
+6) 10011011111101011001101111110110 
+6) 10011011111101011001110111110110 
+6) 10011011111101101001100111110110 
+6) 10011011111101101001101111110110 
+6) 10011011111101101001110111110110 
+6) 10011011111101111001100111110110 
+6) 10011011111101111001101111110110 
+6) 10011011111101111001110111110110 
+5) 10011001111101011001100111110101 
+5) 10011001111101011001101111110101 
+5) 10011001111101011001110111110101 
+5) 10011001111101101001100111110101 
+5) 10011001111101101001101111110101 
+5) 10011001111101101001110111110101 
+5) 10011001111101111001100111110101 
+5) 10011001111101111001101111110101 
+5) 10011001111101111001110111110101 
+7) 10011011111101011001100111110111 
+7) 10011011111101011001101111110111 
+7) 10011011111101011001110111110111 
+7) 10011011111101101001100111110111 
+7) 10011011111101101001101111110111 
+7) 10011011111101101001110111110111 
+7) 10011011111101111001100111110111 
+7) 10011011111101111001101111110111 
+7) 10011011111101111001110111110111 
+6) 10011101111101011001100111110110 
+6) 10011101111101011001101111110110 
+6) 10011101111101011001110111110110 
+6) 10011101111101101001100111110110 
+6) 10011101111101101001101111110110 
+6) 10011101111101101001110111110110 
+6) 10011101111101111001100111110110 
+6) 10011101111101111001101111110110 
+6) 10011101111101111001110111110110 
+5) 10011011111101011001100111110101 
+5) 10011011111101011001101111110101 
+5) 10011011111101011001110111110101 
+5) 10011011111101101001100111110101 
+5) 10011011111101101001101111110101 
+5) 10011011111101101001110111110101 
+5) 10011011111101111001100111110101 
+5) 10011011111101111001101111110101 
+5) 10011011111101111001110111110101 
+7) 10011101111101011001100111110111 
+7) 10011101111101011001101111110111 
+7) 10011101111101011001110111110111 
+7) 10011101111101101001100111110111 
+7) 10011101111101101001101111110111 
+7) 10011101111101101001110111110111 
+7) 10011101111101111001100111110111 
+7) 10011101111101111001101111110111 
+7) 10011101111101111001110111110111 
+5) 10011101111101011001100111110101 
+5) 10011101111101011001101111110101 
+5) 10011101111101011001110111110101 
+5) 10011101111101101001100111110101 
+5) 10011101111101101001101111110101 
+5) 10011101111101101001110111110101 
+5) 10011101111101111001100111110101 
+5) 10011101111101111001101111110101 
+5) 10011101111101111001110111110101 
+Process 1 finished in time 36.955287 secs.
+
+A total of 0 solutions were found.
+
+Process 3 finished in time 36.989012 secs.
+
+A total of 0 solutions were found.
+
+Process 2 finished in time 36.989479 secs.
+
+A total of 0 solutions were found.
+
+Process 7 finished in time 37.690781 secs.
+
+A total of 27 solutions were found.
+
+Process 6 finished in time 37.690993 secs.
+
+A total of 27 solutions were found.
+
+Process 5 finished in time 37.894265 secs.
+
+A total of 27 solutions were found.
+
+Process 4 finished in time 37.891620 secs.
+
+A total of 0 solutions were found.
+
+Process 0 finished in time 37.891903 secs.
+
+A total of 0 solutions were found.
+
+the total sum of the count values equals: 81
+The total time is: 37.891903
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kmpirun -np 8 -machinefile ../hosts ./circuitSatissfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 8 -machinefile ../hosts ./circuitSat -machinefile ../hosts ./circuitSatisf[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 1 -machinefile ../hosts ./circuitSatis[1@f[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16 -machinefile ../hosts ./circuitSati[1@s[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16
+
+
+Process 10 is checking the circuit...
+
+Process 4 is checking the circuit...
+
+Process 3 is checking the circuit...
+
+Process 6 is checking the circuit...
+
+Process 7 is checking the circuit...
+
+Process 8 is checking the circuit...
+
+Process 5 is checking the circuit...
+
+Process 2 is checking the circuit...
+
+Process 1 is checking the circuit...
+
+Process 13 is checking the circuit...
+
+Process 11 is checking the circuit...
+
+Process 9 is checking the circuit...
+
+Process 15 is checking the circuit...
+
+Process 14 is checking the circuit...
+
+Process 0 is checking the circuit...
+
+Process 12 is checking the circuit...
+6) 10011001111101011001100111110110 
+6) 10011001111101011001101111110110 
+6) 10011001111101011001110111110110 
+6) 10011001111101101001100111110110 
+6) 10011001111101101001101111110110 
+6) 10011001111101101001110111110110 
+6) 10011001111101111001100111110110 
+6) 10011001111101111001101111110110 
+6) 10011001111101111001110111110110 
+7) 10011001111101011001100111110111 
+7) 10011001111101011001101111110111 
+7) 10011001111101011001110111110111 
+7) 10011001111101101001100111110111 
+7) 10011001111101101001101111110111 
+7) 10011001111101101001110111110111 
+7) 10011001111101111001100111110111 
+7) 10011001111101111001101111110111 
+7) 10011001111101111001110111110111 
+5) 10011001111101011001100111110101 
+5) 10011001111101011001101111110101 
+5) 10011001111101011001110111110101 
+5) 10011001111101101001100111110101 
+5) 10011001111101101001101111110101 
+5) 10011001111101101001110111110101 
+5) 10011001111101111001100111110101 
+5) 10011001111101111001101111110101 
+5) 10011001111101111001110111110101 
+6) 10011011111101011001100111110110 
+6) 10011011111101011001101111110110 
+6) 10011011111101011001110111110110 
+6) 10011011111101101001100111110110 
+6) 10011011111101101001101111110110 
+6) 10011011111101101001110111110110 
+6) 10011011111101111001100111110110 
+6) 10011011111101111001101111110110 
+6) 10011011111101111001110111110110 
+7) 10011011111101011001100111110111 
+7) 10011011111101011001101111110111 
+7) 10011011111101011001110111110111 
+7) 10011011111101101001100111110111 
+7) 10011011111101101001101111110111 
+7) 10011011111101101001110111110111 
+7) 10011011111101111001100111110111 
+7) 10011011111101111001101111110111 
+7) 10011011111101111001110111110111 
+5) 10011011111101011001100111110101 
+5) 10011011111101011001101111110101 
+5) 10011011111101011001110111110101 
+5) 10011011111101101001100111110101 
+5) 10011011111101101001101111110101 
+5) 10011011111101101001110111110101 
+5) 10011011111101111001100111110101 
+5) 10011011111101111001101111110101 
+5) 10011011111101111001110111110101 
+6) 10011101111101011001100111110110 
+6) 10011101111101011001101111110110 
+6) 10011101111101011001110111110110 
+6) 10011101111101101001100111110110 
+6) 10011101111101101001101111110110 
+6) 10011101111101101001110111110110 
+6) 10011101111101111001100111110110 
+6) 10011101111101111001101111110110 
+6) 10011101111101111001110111110110 
+7) 10011101111101011001100111110111 
+7) 10011101111101011001101111110111 
+7) 10011101111101011001110111110111 
+7) 10011101111101101001100111110111 
+7) 10011101111101101001101111110111 
+7) 10011101111101101001110111110111 
+7) 10011101111101111001100111110111 
+7) 10011101111101111001101111110111 
+7) 10011101111101111001110111110111 
+5) 10011101111101011001100111110101 
+5) 10011101111101011001101111110101 
+5) 10011101111101011001110111110101 
+5) 10011101111101101001100111110101 
+5) 10011101111101101001101111110101 
+5) 10011101111101101001110111110101 
+5) 10011101111101111001100111110101 
+5) 10011101111101111001101111110101 
+5) 10011101111101111001110111110101 
+Process 3 finished in time 18.212133 secs.
+
+A total of 0 solutions were found.
+
+Process 15 finished in time 18.290082 secs.
+
+A total of 0 solutions were found.
+
+Process 13 finished in time 18.390401 secs.
+
+A total of 0 solutions were found.
+
+Process 9 finished in time 18.428386 secs.
+
+A total of 0 solutions were found.
+
+Process 11 finished in time 18.444605 secs.
+
+A total of 0 solutions were found.
+
+Process 10 finished in time 18.448429 secs.
+
+A total of 0 solutions were found.
+
+Process 12 finished in time 18.445852 secs.
+
+A total of 0 solutions were found.
+
+Process 8 finished in time 18.466784 secs.
+
+A total of 0 solutions were found.
+
+Process 2 finished in time 18.466707 secs.
+
+A total of 0 solutions were found.
+
+Process 14 finished in time 18.516642 secs.
+
+A total of 0 solutions were found.
+
+Process 1 finished in time 18.631876 secs.
+
+A total of 0 solutions were found.
+
+Process 5 finished in time 18.982563 secs.
+
+A total of 27 solutions were found.
+
+Process 7 finished in time 18.989584 secs.
+
+A total of 27 solutions were found.
+
+Process 6 finished in time 18.989805 secs.
+
+A total of 27 solutions were found.
+
+Process 4 finished in time 18.993454 secs.
+
+A total of 0 solutions were found.
+
+Process 0 finished in time 18.990226 secs.
+
+A total of 0 solutions were found.
+
+the total sum of the count values equals: 81
+The total time is: 18.990226
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kmpirun -np 16 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16 -machinefile ../hosts ./circuitSa -machinefile ../hosts ./circuitSatis[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 1 -machinefile ../hosts ./circuitSatisf[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 3 -machinefile ../hosts ./circuitSatis[1@f[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32 -machinefile ../hosts ./circuitSati[1@s[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32
+
+
+Process 7 is checking the circuit...
+
+Process 4 is checking the circuit...
+
+Process 10 is checking the circuit...
+
+Process 8 is checking the circuit...
+
+Process 20 is checking the circuit...
+
+Process 3 is checking the circuit...
+
+Process 24 is checking the circuit...
+
+Process 1 is checking the circuit...
+
+Process 17 is checking the circuit...
+
+Process 23 is checking the circuit...
+
+Process 21 is checking the circuit...
+
+Process 16 is checking the circuit...
+
+Process 11 is checking the circuit...
+
+Process 14 is checking the circuit...
+
+Process 30 is checking the circuit...
+
+Process 29 is checking the circuit...
+
+Process 27 is checking the circuit...
+
+Process 2 is checking the circuit...
+
+Process 15 is checking the circuit...
+
+Process 28 is checking the circuit...
+
+Process 6 is checking the circuit...
+
+Process 5 is checking the circuit...
+
+Process 19 is checking the circuit...
+
+Process 18 is checking the circuit...
+
+Process 31 is checking the circuit...
+
+Process 0 is checking the circuit...
+
+Process 13 is checking the circuit...
+
+Process 26 is checking the circuit...
+
+Process 22 is checking the circuit...
+
+Process 9 is checking the circuit...
+
+Process 12 is checking the circuit...
+
+Process 25 is checking the circuit...
+21) 10011001111101011001100111110101 
+21) 10011001111101011001101111110101 
+21) 10011001111101011001110111110101 
+21) 10011001111101101001100111110101 
+21) 10011001111101101001101111110101 
+21) 10011001111101101001110111110101 
+21) 10011001111101111001100111110101 
+21) 10011001111101111001101111110101 
+21) 10011001111101111001110111110101 
+22) 10011001111101011001100111110110 
+22) 10011001111101011001101111110110 
+22) 10011001111101011001110111110110 
+22) 10011001111101101001100111110110 
+22) 10011001111101101001101111110110 
+22) 10011001111101101001110111110110 
+22) 10011001111101111001100111110110 
+22) 10011001111101111001101111110110 
+22) 10011001111101111001110111110110 
+23) 10011001111101011001100111110111 
+23) 10011001111101011001101111110111 
+23) 10011001111101011001110111110111 
+23) 10011001111101101001100111110111 
+23) 10011001111101101001101111110111 
+23) 10011001111101101001110111110111 
+23) 10011001111101111001100111110111 
+23) 10011001111101111001101111110111 
+23) 10011001111101111001110111110111 
+21) 10011011111101011001100111110101 
+21) 10011011111101011001101111110101 
+21) 10011011111101011001110111110101 
+21) 10011011111101101001100111110101 
+21) 10011011111101101001101111110101 
+21) 10011011111101101001110111110101 
+21) 10011011111101111001100111110101 
+21) 10011011111101111001101111110101 
+21) 10011011111101111001110111110101 
+22) 10011011111101011001100111110110 
+22) 10011011111101011001101111110110 
+22) 10011011111101011001110111110110 
+22) 10011011111101101001100111110110 
+22) 10011011111101101001101111110110 
+22) 10011011111101101001110111110110 
+22) 10011011111101111001100111110110 
+22) 10011011111101111001101111110110 
+22) 10011011111101111001110111110110 
+23) 10011011111101011001100111110111 
+23) 10011011111101011001101111110111 
+23) 10011011111101011001110111110111 
+23) 10011011111101101001100111110111 
+23) 10011011111101101001101111110111 
+23) 10011011111101101001110111110111 
+23) 10011011111101111001100111110111 
+23) 10011011111101111001101111110111 
+23) 10011011111101111001110111110111 
+21) 10011101111101011001100111110101 
+21) 10011101111101011001101111110101 
+21) 10011101111101011001110111110101 
+21) 10011101111101101001100111110101 
+21) 10011101111101101001101111110101 
+21) 10011101111101101001110111110101 
+21) 10011101111101111001100111110101 
+21) 10011101111101111001101111110101 
+21) 10011101111101111001110111110101 
+23) 10011101111101011001100111110111 
+23) 10011101111101011001101111110111 
+23) 10011101111101011001110111110111 
+23) 10011101111101101001100111110111 
+23) 10011101111101101001101111110111 
+23) 10011101111101101001110111110111 
+23) 10011101111101111001100111110111 
+23) 10011101111101111001101111110111 
+23) 10011101111101111001110111110111 
+22) 10011101111101011001100111110110 
+22) 10011101111101011001101111110110 
+22) 10011101111101011001110111110110 
+22) 10011101111101101001100111110110 
+22) 10011101111101101001101111110110 
+22) 10011101111101101001110111110110 
+22) 10011101111101111001100111110110 
+22) 10011101111101111001101111110110 
+22) 10011101111101111001110111110110 
+Process 25 finished in time 8.998376 secs.
+
+A total of 0 solutions were found.
+
+Process 19 finished in time 9.079811 secs.
+
+A total of 0 solutions were found.
+
+Process 18 finished in time 9.184690 secs.
+
+A total of 0 solutions were found.
+
+Process 31 finished in time 9.229750 secs.
+
+A total of 0 solutions were found.
+
+Process 15 finished in time 9.237579 secs.
+
+A total of 0 solutions were found.
+
+Process 27 finished in time 9.237972 secs.
+
+A total of 0 solutions were found.
+
+Process 29 finished in time 9.256185 secs.
+
+A total of 0 solutions were found.
+
+Process 12 finished in time 9.294479 secs.
+
+A total of 0 solutions were found.
+
+Process 20 finished in time 9.310656 secs.
+
+A total of 0 solutions were found.
+
+Process 13 finished in time 9.317152 secs.
+
+A total of 0 solutions were found.
+
+Process 26 finished in time 9.346002 secs.
+
+A total of 0 solutions were found.
+
+Process 30 finished in time 9.353605 secs.
+
+A total of 0 solutions were found.
+
+Process 14 finished in time 9.389189 secs.
+
+A total of 0 solutions were found.
+
+Process 17 finished in time 9.414184 secs.
+
+A total of 0 solutions were found.
+
+Process 1 finished in time 9.438662 secs.
+
+A total of 0 solutions were found.
+
+Process 5 finished in time 9.445415 secs.
+
+A total of 0 solutions were found.
+
+Process 7 finished in time 9.487818 secs.
+
+A total of 0 solutions were found.
+
+Process 6 finished in time 9.485533 secs.
+
+A total of 0 solutions were found.
+
+Process 4 finished in time 9.488660 secs.
+
+A total of 0 solutions were found.
+
+Process 16 finished in time 9.497910 secs.
+
+A total of 0 solutions were found.
+
+Process 3 finished in time 9.498487 secs.
+
+A total of 0 solutions were found.
+
+Process 28 finished in time 9.557752 secs.
+
+A total of 0 solutions were found.
+
+Process 2 finished in time 9.558222 secs.
+
+A total of 0 solutions were found.
+
+Process 24 finished in time 9.559681 secs.
+
+A total of 0 solutions were found.
+
+Process 11 finished in time 9.560126 secs.
+
+A total of 0 solutions were found.
+
+Process 21 finished in time 9.623805 secs.
+
+A total of 27 solutions were found.
+
+Process 23 finished in time 9.752480 secs.
+
+A total of 27 solutions were found.
+
+Process 10 finished in time 9.752996 secs.
+
+A total of 0 solutions were found.
+
+Process 22 finished in time 9.850652 secs.
+
+A total of 27 solutions were found.
+
+Process 9 finished in time 9.851181 secs.
+
+A total of 0 solutions were found.
+
+Process 8 finished in time 9.855049 secs.
+
+A total of 0 solutions were found.
+
+Process 0 finished in time 9.852090 secs.
+
+A total of 0 solutions were found.
+
+the total sum of the count values equals: 81
+The total time is: 9.852090
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kmpirun -np 32 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32 -machinefile ../hosts ./circuitSa -machinefile ../hosts ./circuitSatis[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 3 -machinefile ../hosts ./circuitSatisf[1P[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 6 -machinefile ../hosts ./circuitSatis[1@f[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 64 -machinefile ../hosts ./circuitSati[1@s[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 64
+
+
+Process 31 is checking the circuit...
+
+Process 44 is checking the circuit...
+
+Process 18 is checking the circuit...
+
+Process 57 is checking the circuit...
+
+Process 5 is checking the circuit...
+
+Process 23 is checking the circuit...
+
+Process 36 is checking the circuit...
+
+Process 49 is checking the circuit...
+
+Process 10 is checking the circuit...
+
+Process 62 is checking the circuit...
+
+Process 9 is checking the circuit...
+
+Process 48 is checking the circuit...
+
+Process 61 is checking the circuit...
+
+Process 22 is checking the circuit...
+
+Process 35 is checking the circuit...
+
+Process 11 is checking the circuit...
+
+Process 24 is checking the circuit...
+
+Process 50 is checking the circuit...
+
+Process 63 is checking the circuit...
+
+Process 37 is checking the circuit...
+
+Process 16 is checking the circuit...
+
+Process 29 is checking the circuit...
+
+Process 42 is checking the circuit...
+
+Process 55 is checking the circuit...
+
+Process 3 is checking the circuit...
+
+Process 53 is checking the circuit...
+
+Process 30 is checking the circuit...
+
+Process 1 is checking the circuit...
+
+Process 0 is checking the circuit...
+
+Process 43 is checking the circuit...
+
+Process 14 is checking the circuit...
+
+Process 56 is checking the circuit...
+
+Process 27 is checking the circuit...
+
+Process 17 is checking the circuit...
+
+Process 40 is checking the circuit...
+
+Process 8 is checking the circuit...
+
+Process 13 is checking the circuit...
+
+Process 21 is checking the circuit...
+
+Process 26 is checking the circuit...
+
+Process 15 is checking the circuit...
+
+Process 34 is checking the circuit...
+
+Process 39 is checking the circuit...
+
+Process 47 is checking the circuit...
+
+Process 52 is checking the circuit...
+
+Process 7 is checking the circuit...
+
+Process 28 is checking the circuit...
+
+Process 60 is checking the circuit...
+
+Process 6 is checking the circuit...
+
+Process 20 is checking the circuit...
+
+Process 41 is checking the circuit...
+
+Process 19 is checking the circuit...
+
+Process 33 is checking the circuit...
+
+Process 54 is checking the circuit...
+
+Process 25 is checking the circuit...
+
+Process 32 is checking the circuit...
+
+Process 46 is checking the circuit...
+
+Process 2 is checking the circuit...
+
+Process 4 is checking the circuit...
+
+Process 45 is checking the circuit...
+
+Process 59 is checking the circuit...
+
+Process 58 is checking the circuit...
+
+Process 38 is checking the circuit...
+
+Process 12 is checking the circuit...
+
+Process 51 is checking the circuit...
+54) 10011001111101011001100111110110 
+54) 10011001111101011001101111110110 
+54) 10011001111101011001110111110110 
+54) 10011001111101101001100111110110 
+54) 10011001111101101001101111110110 
+54) 10011001111101101001110111110110 
+54) 10011001111101111001100111110110 
+54) 10011001111101111001101111110110 
+54) 10011001111101111001110111110110 
+53) 10011001111101011001100111110101 
+53) 10011001111101011001101111110101 
+53) 10011001111101011001110111110101 
+53) 10011001111101101001100111110101 
+53) 10011001111101101001101111110101 
+53) 10011001111101101001110111110101 
+53) 10011001111101111001100111110101 
+53) 10011001111101111001101111110101 
+53) 10011001111101111001110111110101 
+55) 10011001111101011001100111110111 
+55) 10011001111101011001101111110111 
+55) 10011001111101011001110111110111 
+55) 10011001111101101001100111110111 
+55) 10011001111101101001101111110111 
+55) 10011001111101101001110111110111 
+55) 10011001111101111001100111110111 
+55) 10011001111101111001101111110111 
+55) 10011001111101111001110111110111 
+54) 10011011111101011001100111110110 
+54) 10011011111101011001101111110110 
+54) 10011011111101011001110111110110 
+54) 10011011111101101001100111110110 
+54) 10011011111101101001101111110110 
+54) 10011011111101101001110111110110 
+54) 10011011111101111001100111110110 
+54) 10011011111101111001101111110110 
+54) 10011011111101111001110111110110 
+53) 10011011111101011001100111110101 
+53) 10011011111101011001101111110101 
+53) 10011011111101011001110111110101 
+53) 10011011111101101001100111110101 
+53) 10011011111101101001101111110101 
+53) 10011011111101101001110111110101 
+53) 10011011111101111001100111110101 
+53) 10011011111101111001101111110101 
+53) 10011011111101111001110111110101 
+55) 10011011111101011001100111110111 
+55) 10011011111101011001101111110111 
+55) 10011011111101011001110111110111 
+55) 10011011111101101001100111110111 
+55) 10011011111101101001101111110111 
+55) 10011011111101101001110111110111 
+55) 10011011111101111001100111110111 
+55) 10011011111101111001101111110111 
+55) 10011011111101111001110111110111 
+54) 10011101111101011001100111110110 
+54) 10011101111101011001101111110110 
+54) 10011101111101011001110111110110 
+54) 10011101111101101001100111110110 
+54) 10011101111101101001101111110110 
+54) 10011101111101101001110111110110 
+54) 10011101111101111001100111110110 
+54) 10011101111101111001101111110110 
+54) 10011101111101111001110111110110 
+53) 10011101111101011001100111110101 
+53) 10011101111101011001101111110101 
+53) 10011101111101011001110111110101 
+53) 10011101111101101001100111110101 
+53) 10011101111101101001101111110101 
+53) 10011101111101101001110111110101 
+53) 10011101111101111001100111110101 
+53) 10011101111101111001101111110101 
+53) 10011101111101111001110111110101 
+55) 10011101111101011001100111110111 
+55) 10011101111101011001101111110111 
+55) 10011101111101011001110111110111 
+55) 10011101111101101001100111110111 
+55) 10011101111101101001101111110111 
+55) 10011101111101101001110111110111 
+55) 10011101111101111001100111110111 
+55) 10011101111101111001101111110111 
+55) 10011101111101111001110111110111 
+Process 50 finished in time 4.681091 secs.
+
+A total of 0 solutions were found.
+
+Process 38 finished in time 4.694599 secs.
+
+A total of 0 solutions were found.
+
+Process 51 finished in time 4.694547 secs.
+
+A total of 0 solutions were found.
+
+Process 25 finished in time 4.700218 secs.
+
+A total of 0 solutions were found.
+
+Process 45 finished in time 4.703684 secs.
+
+A total of 0 solutions were found.
+
+Process 18 finished in time 4.717603 secs.
+
+A total of 0 solutions were found.
+
+Process 63 finished in time 4.716374 secs.
+
+A total of 0 solutions were found.
+
+Process 34 finished in time 4.722246 secs.
+
+A total of 0 solutions were found.
+
+Process 47 finished in time 4.722257 secs.
+
+A total of 0 solutions were found.
+
+Process 58 finished in time 4.771468 secs.
+
+A total of 0 solutions were found.
+
+Process 29 finished in time 4.776033 secs.
+
+A total of 0 solutions were found.
+
+Process 42 finished in time 4.776027 secs.
+
+A total of 0 solutions were found.
+
+Process 15 finished in time 4.781532 secs.
+
+A total of 0 solutions were found.
+
+Process 30 finished in time 4.788370 secs.
+
+A total of 0 solutions were found.
+
+Process 43 finished in time 4.788355 secs.
+
+A total of 0 solutions were found.
+
+Process 46 finished in time 4.796943 secs.
+
+A total of 0 solutions were found.
+
+Process 17 finished in time 4.799881 secs.
+
+A total of 0 solutions were found.
+
+Process 49 finished in time 4.807495 secs.
+
+A total of 0 solutions were found.
+
+Process 14 finished in time 4.808937 secs.
+
+A total of 0 solutions were found.
+
+Process 26 finished in time 4.811064 secs.
+
+A total of 0 solutions were found.
+
+Process 39 finished in time 4.811077 secs.
+
+A total of 0 solutions were found.
+
+Process 60 finished in time 4.812634 secs.
+
+A total of 0 solutions were found.
+
+Process 52 finished in time 4.814771 secs.
+
+A total of 0 solutions were found.
+
+Process 33 finished in time 4.816134 secs.
+
+A total of 0 solutions were found.
+
+Process 61 finished in time 4.842450 secs.
+
+A total of 0 solutions were found.
+
+Process 13 finished in time 4.844584 secs.
+
+A total of 0 solutions were found.
+
+Process 16 finished in time 4.847785 secs.
+
+A total of 0 solutions were found.
+
+Process 24 finished in time 4.850492 secs.
+
+A total of 0 solutions were found.
+
+Process 20 finished in time 4.850329 secs.
+
+A total of 0 solutions were found.
+
+Process 41 finished in time 4.850674 secs.
+
+A total of 0 solutions were found.
+
+Process 19 finished in time 4.854818 secs.
+
+A total of 0 solutions were found.
+
+Process 12 finished in time 4.857789 secs.
+
+A total of 0 solutions were found.
+
+Process 32 finished in time 4.858001 secs.
+
+A total of 0 solutions were found.
+
+Process 23 finished in time 4.875912 secs.
+
+A total of 0 solutions were found.
+
+Process 57 finished in time 4.884462 secs.
+
+A total of 0 solutions were found.
+
+Process 37 finished in time 4.894480 secs.
+
+A total of 0 solutions were found.
+
+Process 11 finished in time 4.894892 secs.
+
+A total of 0 solutions were found.
+
+Process 35 finished in time 4.896305 secs.
+
+A total of 0 solutions were found.
+
+Process 48 finished in time 4.897084 secs.
+
+A total of 0 solutions were found.
+
+Process 27 finished in time 4.900280 secs.
+
+A total of 0 solutions were found.
+
+Process 40 finished in time 4.900269 secs.
+
+A total of 0 solutions were found.
+
+Process 56 finished in time 4.911307 secs.
+
+A total of 0 solutions were found.
+
+Process 36 finished in time 4.915349 secs.
+
+A total of 0 solutions were found.
+
+Process 31 finished in time 4.931534 secs.
+
+A total of 0 solutions were found.
+
+Process 44 finished in time 4.931526 secs.
+
+A total of 0 solutions were found.
+
+Process 22 finished in time 4.930876 secs.
+
+A total of 0 solutions were found.
+
+Process 9 finished in time 4.932116 secs.
+
+A total of 0 solutions were found.
+
+Process 28 finished in time 4.943874 secs.
+
+A total of 0 solutions were found.
+
+Process 54 finished in time 5.028698 secs.
+
+A total of 27 solutions were found.
+
+Process 55 finished in time 5.053090 secs.
+
+A total of 27 solutions were found.
+
+Process 3 finished in time 5.053355 secs.
+
+A total of 0 solutions were found.
+
+Process 2 finished in time 5.053154 secs.
+
+A total of 0 solutions were found.
+
+Process 59 finished in time 5.056462 secs.
+
+A total of 0 solutions were found.
+
+Process 7 finished in time 5.056875 secs.
+
+A total of 0 solutions were found.
+
+Process 6 finished in time 5.057340 secs.
+
+A total of 0 solutions were found.
+
+Process 53 finished in time 5.067210 secs.
+
+A total of 27 solutions were found.
+
+Process 62 finished in time 5.162920 secs.
+
+A total of 0 solutions were found.
+
+Process 10 finished in time 5.163408 secs.
+
+A total of 0 solutions were found.
+
+Process 1 finished in time 5.177707 secs.
+
+A total of 0 solutions were found.
+
+Process 21 finished in time 5.257880 secs.
+
+A total of 0 solutions were found.
+
+Process 8 finished in time 5.258271 secs.
+
+A total of 0 solutions were found.
+
+Process 5 finished in time 5.328495 secs.
+
+A total of 0 solutions were found.
+
+Process 0 finished in time 5.325727 secs.
+
+A total of 0 solutions were found.
+
+the total sum of the count values equals: 81
+The total time is: 5.325727
+Process 4 finished in time 5.325058 secs.
+
+A total of 0 solutions were found.
+
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kcat circuitSatisfiability.c
+/* circuitSatifiability.c solves the Circuit Satisfiability
+ *  Problem using a brute-force sequential solution.
+ *
+ *   The particular circuit being tested is "wired" into the
+ *   logic of function 'checkCircuit'. All combinations of
+ *   inputs that satisfy the circuit are printed.
+ *
+ *   16-bit version by Michael J. Quinn, Sept 2002.
+ *   Extended to 32 bits by Joel C. Adams, Sept 2013.
+ */
+
+#include <stdio.h>     // printf()
+#include <limits.h>    // UINT_MAX
+#include <mpi.h>
+
+int checkCircuit (int, long);
+
+int main (int argc, char *argv[]) {
+   long i;               // loop variable (64 bits) 
+   int id = -1;           // process id 
+   int count = 0;        // number of solutions 
+   int numProcesses = -1;
+
+   MPI_Init(&argc, &argv);
+
+   MPI_Comm_rank(MPI_COMM_WORLD, &id);
+	MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+   printf ("\nProcess %d is checking the circuit...\n", id);
+
+   double startTime = 0.0, totalTime = 0.0;
+   startTime = MPI_Wtime();
+   
+   for (i = id; i <= UINT_MAX; i += numProcesses) {
+      count += checkCircuit (id, i);
+   }
+   
+   int totalSum; 
+   MPI_Reduce(&count, &totalSum, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+
+   totalTime = MPI_Wtime() - startTime;
+
+   //printf("Process %d finished in time %f secs.\n", id, totalTime);
+   fflush (stdout);
+
+   //printf("\nA total of %d solutions were found.\n\n", count);
+
+   if (id == 0){
+      printf ("the total sum of the count values equals: %d\n", totalSum);
+      printf("The total time is: %f\n", totalTime);
+   }
+
+   MPI_Finalize();
+   return 0;
+  
+}
+
+/* EXTRACT_BIT is a macro that extracts the ith bit of number n.
+ *
+ * parameters: n, a number;
+ *             i, the position of the bit we want to know.
+ *
+ * return: 1 if 'i'th bit of 'n' is 1; 0 otherwise 
+ */
+
+#define EXTRACT_BIT(n,i) ( (n & (1<<i) ) ? 1 : 0)
+
+
+/* checkCircuit() checks the circuit for a given input.
+ * parameters: id, the id of the process checking;
+ *             bits, the (long) rep. of the input being checked.
+ *
+ * output: the binary rep. of bits if the circuit outputs 1
+ * return: 1 if the circuit outputs 1; 0 otherwise.
+ */
+
+#define SIZE 32
+
+int checkCircuit (int id, long bits) {
+   int v[SIZE];        /* Each element is one of the 32 bits */
+   int i;
+
+   for (i = 0; i < SIZE; i++) {
+     v[i] = EXTRACT_BIT(bits,i);
+   }
+
+   if ( ( (v[0] || v[1]) && (!v[1] || !v[3]) && (v[2] || v[3])
+       && (!v[3] || !v[4]) && (v[4] || !v[5])
+       && (v[5] || !v[6]) && (v[5] || v[6])
+       && (v[6] || !v[15]) && (v[7] || !v[8])
+       && (!v[7] || !v[13]) && (v[8] || v[9])
+       && (v[8] || !v[9]) && (!v[9] || !v[10])
+       && (v[9] || v[11]) && (v[10] || v[11])
+       && (v[12] || v[13]) && (v[13] || !v[14])
+       && (v[14] || v[15]) )
+       &&
+          ( (v[16] || v[17]) && (!v[17] || !v[19]) && (v[18] || v[19])
+       && (!v[19] || !v[20]) && (v[20] || !v[21])
+       && (v[21] || !v[22]) && (v[21] || v[22])
+       && (v[22] || !v[31]) && (v[23] || !v[24])
+       && (!v[23] || !v[29]) && (v[24] || v[25])
+       && (v[24] || !v[25]) && (!v[25] || !v[26])
+       && (v[25] || v[27]) && (v[26] || v[27])
+       && (v[28] || v[29]) && (v[29] || !v[30])
+       && (v[30] || v[31]) ) )
+   {
+      printf ("%d) %d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d \n", id,
+         v[31],v[30],v[29],v[28],v[27],v[26],v[25],v[24],v[23],v[22],
+         v[21],v[20],v[19],v[18],v[17],v[16],v[15],v[14],v[13],v[12],
+         v[11],v[10],v[9],v[8],v[7],v[6],v[5],v[4],v[3],v[2],v[1],v[0]);
+      fflush (stdout);
+      return 1;
+   } else {
+      return 0;
+   }
+}
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ m cat circuitSatisfiability.cmpirun -np 64 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32
+isfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16
+isfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32
+isfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16
+isfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 8 -machinefile ../hosts ./circuitSatis[1Pfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 4
+sfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [19Pscp jmw75@borg:~/374/proj01 .
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/374/proj01 .[10Pcd cs374/Project01/mpirun -np 16 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [24P./circuitSatisfiability 
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ ./circuitSatisfiability mpirun -np 32 -machinefile ../hosts ./circuitSatiisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [29Pcd cs374/Project01/
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ cd cs374/Project01/[Kscp jmw75@borg:~/374/proj01/slurm-196967.out[17Pcd cs374/Project01/outputs/[Kscp [2Pcdscp -r /cs374/Project01  jmw75@borg:~/374/proj01  slurm-196967.out[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ ls[K
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ lscd -dcs374/Project01/-[Kcs374/Project01/help[K?[Kscp jmw75@borg:~/374/proj01 slurm-196967.out jmw775@remotel3:~/cs374/Project01[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/cs374/Project01/output slurm-196967.out[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/cs374/Project01/output[K
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/cs374/Project01/output[3P374/proj01 file.txt[8@slurm-196967.out[7PMakefile  jmw75@borg:~/374/proj01jmw75@borg:~/374/proj01 script-circSatis_8_166.slurm[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/cs374/Project01 slurm-196967.out[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/[4P374/proj01 slurm-196967.out
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/374/proj01 slurm-196967.out jmw75@remotel2:/homee/jmw75/cs374/Project01/outputs/[Assh jmw75@borg[K
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ ssh jmw75@borgcd cs374/Project01/[K[1Pdscp jmw75@borg:~/374/proj01 slurm-196967.out jmw775@remotel2:~/cs374[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/374/proj01 slurm-196967.out[K
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp jmw75@borg:~/374/proj01 slurm-196967.outtxt[1Ptxt[1@.out[Kcd outputs/[Kls[Kcd cs374/Project01/ls[Kcdssh jmw75@borgcp Makefile  jmw75@borg:~/374/proj01[23Psh jmw75@borgcp circuitSatisfiability.c jmw75@borg:~/374/projj01[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ ssh jmw75@borg[K
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ ssh jmw75@borgcp circuitSatisfiability.c jmw75@borg:~/374/projj01[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ scp circuitSatisfiability.c jmw75@borg:~/cs374/Pr[5@oject01roj[3P01[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [29Pcd cs374/Project01/
+[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ cd cs374/Project01/[Kssh jmw75@borgd-copy-id jmw75@borgdcd .ssh[K[Khmod 600 authorized_keys[9Pid_rsa[10Pls -alcat id_rsa.pub >> authorized_keysls -al[Kssh-keygen -t rsa[11Pls -alcd .ssh[7@hmod 700 .ssh[8Pls -al[3Pcd ls -alcd /home[Kls -almpirun -np 256 -machinefile ../hosts ./circuitSattisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 128
+tisfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 64 -machinefile ../hosts ./circuitSati[1Psfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 32
+isfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 4 -machinefile ../hosts ./circuitSatis[1Pfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 2
+sfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 8
+sfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpirun -np 16 -machinefile ../hosts ./circuitSati[1@sfiability[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpicc circuitSatisfiability.c -Wall -ansi -pedant[26@ic -std=c99 -o circuitSatisfiability[Arun -np 16 -machinefile ../hosts ./circuitSatisfiability[K[A]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ mpicc circuitSatisfiability.c -Wall -ansi -pedant[26@ic -std=c99 -o circuitSatisfiability
+]0;jmw75@gold34: ~/cs374/Project01[01;32mjmw75@gold34[00m:[01;34m~/cs374/Project01[00m$ [Kexit
+
+Script done on 2021-09-09 21:30:20-04:00 [COMMAND_EXIT_CODE="0"]

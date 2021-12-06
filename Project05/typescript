@@ -1,0 +1,161 @@
+Script started on 2021-11-05 14:20:12-04:00 [TERM="xterm-256color" TTY="/dev/pts/1" COLUMNS="80" LINES="23"]
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ cat Makefile calcPI.c
+TARGET = calcPI
+CC = mpicc
+CFLAGS = -Wall -c -ansi -pedantic -std=c99 -g
+LFLAGS = -o $(TARGET) -lm -g
+
+$(TARGET): $(TARGET).o integral.o
+	$(CC) $(TARGET).o integral.o $(LFLAGS)
+
+$(TARGET).o: $(TARGET).c integral.h
+	$(CC) $(CFLAGS) $(TARGET).c
+
+integral.o: integral.c integral.h
+	$(CC) $(CFLAGS) integral.c
+
+clean:
+	rm -f $(TARGET) *.o *~ *#
+
+/* calcPi.c calculates PI using the integral of the unit circle.
+ * Since the area of the unit circle is PI, 
+ *  PI = 4 * the area of a quarter of the unit circle 
+ *    (i.e., its integral from 0.0 to 1.0)
+ *
+ * Joel Adams, Fall 2013 for CS 374 at Calvin College.
+ *
+ * Changes made by John White to add parallelization using chunks
+ *    while at Calvin University on 10/20/21 for project05 in cs374
+ *    High Performence Computing
+ */
+
+#include "integral.h"   // integrate()
+#include <stdio.h>      // printf(), etc.
+#include <stdlib.h>     // exit()
+#include <math.h>       // sqrt() 
+#include <mpi.h>        // Paralellization
+
+
+/* function for unit circle (x^2 + y^2 = 1)
+ * parameter: x, a double
+ * return: sqrt(1 - x^2)
+ */
+double f(double x) {
+   return sqrt(1.0 - x*x);
+}
+
+/* retrieve desired number of trapezoids from commandline arguments
+ * parameters: argc: the argument count
+ *             argv: the argument vector
+ * return: the number of trapezoids to be used.
+ */            
+unsigned long long processCommandLine(int argc, char** argv) {
+   if (argc == 1) {
+       return 1;
+   } else if (argc == 2) {
+//       return atoi( argv[1] );
+       return strtoull( argv[1], 0, 10 );
+   } else {
+       fprintf(stderr, "Usage: ./calcPI [numTrapezoids]");
+       exit(1);
+   }
+}
+ 
+
+int main(int argc, char** argv) {
+   long double localApproximatePI,
+               totalApproximatePI = 0;
+   const long double REFERENCE_PI = 3.141592653589793238462643383279L;
+   unsigned long long numTrapezoids = processCommandLine(argc, argv); // Number of trapazoids processed from command line
+
+   double startTime, totalTime = 0;
+   int id,
+       numProcesses,
+       remainder;
+   unsigned long long 
+       start,
+       stop,
+       chunkSize,
+       chunkSize2;
+       
+
+   // Init MPI
+   MPI_Init(&argc, &argv);
+   MPI_Comm_rank(MPI_COMM_WORLD, &id);
+   MPI_Comm_size(MPI_COMM_WORLD, &numProcesses);
+
+   // Number of trapazoids processed from command line
+   
+   // From original
+   // approximatePI = integrateTrap(0.0, 1.0, numTrapezoids) * 4.0;
+
+   //calculate the chunks
+   chunkSize = (int) ceil((double) numTrapezoids / numProcesses);
+   remainder = numTrapezoids % numProcesses;
+
+   if (remainder == 0 || (remainder != 0 && id < remainder)) {
+      start = id * chunkSize;
+      stop = start + chunkSize;
+   } else {
+      chunkSize2 = chunkSize - 1;
+      start = (remainder * chunkSize) + (chunkSize2 * (id - remainder));
+      stop = start + chunkSize2;
+   }
+
+   startTime = MPI_Wtime();
+
+   localApproximatePI = integrateTrap(0.0, 1.0, numTrapezoids, start, stop, id);
+   MPI_Reduce(&localApproximatePI, &totalApproximatePI, 1, MPI_LONG_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+   totalApproximatePI *= 4;
+
+   totalTime = MPI_Wtime() - startTime;
+
+   if ( id == 0 ){
+      printf("Using %llu trapezoids, the approximate vs actual values of PI are:\n%.30Lf\n%.30Lf\n",
+           numTrapezoids, totalApproximatePI, REFERENCE_PI);
+      printf("\nTotal runtime for function to run: %lf\n\n", totalTime);
+   }
+   
+   MPI_Finalize();
+   return 0;
+
+}
+
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ mkae   ake
+make: 'calcPI' is up to date.
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ makecat Makefile calcPI.cmpirun -np 256-oversubscribe -machinefile ../hostts ./calcPI 10000000000000[A]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ mpirun -np 64 -machinefile ../hosts ./calcPI 1000[15P0000000000[A]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ mpirun -np 256-oversubscribe -machinefile ../host[15@s ./calcPI 10000000000000[A]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ mpirun -np 64 -machinefile ../hosts ./calcPI 1000[15P0000000000
+^Z
+[1]+  Stopped                 mpirun -np 64 -machinefile ../hosts ./calcPI 10000000000000
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ [Kend typescript 
+
+Command 'end' not found, did you mean:
+
+  command 'gnd' from snap gnd (master)
+  command 'env' from deb coreutils (8.30-3ubuntu2)
+  command 'ent' from deb ent (1.2debian-2)
+  command 'eid' from deb id-utils (4.6+git20120811-4ubuntu2)
+  command 'ed' from deb ed (1.16-1)
+  command 'snd' from deb snd-gtk-jack (20.1-1)
+  command 'snd' from deb snd-gtk-pulse (20.1-1)
+  command 'snd' from deb snd-nox (20.1-1)
+  command 'nd' from deb nd (0.8.2-8build1)
+  command 'bnd' from deb bnd (3.5.0-4)
+  command 'send' from deb mailutils-mh (1:3.7-2.1)
+  command 'send' from deb mmh (0.4-2)
+  command 'send' from deb nmh (1.7.1-6)
+
+See 'snap info <snapname>' for additional versions.
+
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ exit
+There are stopped jobs.
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ ^C
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ cat typescript 
+]0;jmw75@gold32: ~/cs374/Project05[01;32mjmw75@gold32[00m:[01;34m~/cs374/Project05[00m$ exit
+[mpiexec@gold32] HYDU_sock_write (utils/sock/sock.c:256): write error (Bad file descriptor)
+[mpiexec@gold32] HYD_pmcd_pmiserv_send_signal (pm/pmiserv/pmiserv_cb.c:178): unable to write data to proxy
+[mpiexec@gold32] ui_cmd_cb (pm/pmiserv/pmiserv_pmci.c:77): unable to send signal downstream
+[mpiexec@gold32] HYDT_dmxu_poll_wait_for_event (tools/demux/demux_poll.c:77): callback returned error status
+[mpiexec@gold32] HYD_pmci_wait_for_completion (pm/pmiserv/pmiserv_pmci.c:196): error waiting for event
+[mpiexec@gold32] main (ui/mpich/mpiexec.c:336): process manager error waiting for completion
+
+Script done on 2021-11-05 14:21:23-04:00 [COMMAND_EXIT_CODE="0"]
